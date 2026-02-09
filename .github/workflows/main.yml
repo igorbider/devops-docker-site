@@ -1,0 +1,24 @@
+name: Build and Push Docker image
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ib28071969
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t ib28071969/devops-site:latest .
+
+      - name: Push Docker image
+        run: docker push ib28071969/devops-site:latest
